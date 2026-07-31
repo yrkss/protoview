@@ -66,6 +66,41 @@ const PROTOCOLS = [
         ],
     },
     {
+        id: 'sftp',
+        name: 'SSH File Transfer Protocol',
+        abbreviation: 'SFTP',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Защищённый протокол для передачи файлов поверх SSH. Обеспечивает шифрование, аутентификацию и целостность данных. Используется вместо FTP для безопасной передачи файлов.',
+        details: {
+            'Порт по умолчанию': '22 (SSH)',
+            'Транспорт': 'TCP (SSH)',
+            'Команды': 'open, close, read, write, remove, rename, mkdir, rmdir',
+            'Безопасность': 'Шифрование SSH',
+        },
+        links: [
+            { title: 'RFC 913 — SFTP (обновлённый)', url: 'https://datatracker.ietf.org/doc/html/rfc913' },
+            { title: 'SFTP Specification', url: 'https://filezilla-project.org/sftp_spec.htm' },
+        ],
+    },
+    {
+        id: 'ftps',
+        name: 'FTP over SSL/TLS',
+        abbreviation: 'FTPS',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Защищённая версия FTP с использованием SSL/TLS для шифрования каналов управления и данных. Обеспечивает конфиденциальность и аутентификацию.',
+        details: {
+            'Порт по умолчанию': '990 (управление), 989 (данные)',
+            'Транспорт': 'TCP (TLS)',
+            'Режимы': 'Явный TLS, Неявный TLS',
+            'Безопасность': 'TLS 1.2 / 1.3',
+        },
+        links: [{ title: 'RFC 4217 — FTP over TLS', url: 'https://datatracker.ietf.org/doc/html/rfc4217' }],
+    },
+    {
         id: 'smtp',
         name: 'Simple Mail Transfer Protocol',
         abbreviation: 'SMTP',
@@ -82,6 +117,44 @@ const PROTOCOLS = [
         links: [
             { title: 'RFC 5321 — SMTP', url: 'https://datatracker.ietf.org/doc/html/rfc5321' },
             { title: 'RFC 5322 — Email Format', url: 'https://datatracker.ietf.org/doc/html/rfc5322' },
+        ],
+    },
+    {
+        id: 'pop3',
+        name: 'Post Office Protocol version 3',
+        abbreviation: 'POP3',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для получения электронной почты с почтового сервера. Загружает сообщения на клиент и обычно удаляет их с сервера. Проще, чем IMAP, но менее функциональный.',
+        details: {
+            'Порт по умолчанию': '110 (незащищённый), 995 (POP3S)',
+            'Транспорт': 'TCP',
+            'Команды': 'USER, PASS, STAT, LIST, RETR, DELE, QUIT',
+            'Состояния': 'Авторизация, Транзакция, Обновление',
+        },
+        links: [
+            { title: 'RFC 1939 — POP3', url: 'https://datatracker.ietf.org/doc/html/rfc1939' },
+            { title: 'RFC 2595 — POP3 over TLS', url: 'https://datatracker.ietf.org/doc/html/rfc2595' },
+        ],
+    },
+    {
+        id: 'imap',
+        name: 'Internet Message Access Protocol',
+        abbreviation: 'IMAP',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для доступа к электронной почте на сервере. Позволяет управлять папками, искать сообщения и синхронизировать состояние между устройствами. Более мощный, чем POP3.',
+        details: {
+            'Порт по умолчанию': '143 (незащищённый), 993 (IMAPS)',
+            'Транспорт': 'TCP',
+            'Команды': 'LOGIN, SELECT, FETCH, SEARCH, STORE, APPEND, CLOSE',
+            'Состояния': 'Неавторизованный, Авторизованный, Выбранный',
+        },
+        links: [
+            { title: 'RFC 9051 — IMAP v4rev2', url: 'https://datatracker.ietf.org/doc/html/rfc9051' },
+            { title: 'RFC 2595 — IMAP over TLS', url: 'https://datatracker.ietf.org/doc/html/rfc2595' },
         ],
     },
     {
@@ -123,150 +196,6 @@ const PROTOCOLS = [
             { title: 'RFC 2132 — DHCP Options', url: 'https://datatracker.ietf.org/doc/html/rfc2132' },
         ],
     },
-
-    // ===== ТРАНСПОРТНЫЙ УРОВЕНЬ (4) =====
-    {
-        id: 'tcp',
-        name: 'Transmission Control Protocol',
-        abbreviation: 'TCP',
-        layer: 4,
-        layerName: 'Транспортный',
-        description:
-            'Надёжный, ориентированный на соединение протокол транспортного уровня. Обеспечивает гарантированную доставку данных, контроль потока, управление перегрузками и восстановление потерянных пакетов. Основа большинства интернет-приложений.',
-        details: {
-            'Порт': 'Динамический (1–65535)',
-            'Соединение': 'Трёхэтапное рукопожатие (SYN, SYN-ACK, ACK)',
-            'Надёжность': 'ACK, таймауты, повторная передача',
-            'Управление': 'Flow Control (Window), Congestion Control',
-        },
-        links: [
-            { title: 'RFC 9293 — TCP', url: 'https://datatracker.ietf.org/doc/html/rfc9293' },
-            { title: 'RFC 5681 — TCP Congestion Control', url: 'https://datatracker.ietf.org/doc/html/rfc5681' },
-            { title: 'RFC 7323 — TCP Extensions', url: 'https://datatracker.ietf.org/doc/html/rfc7323' },
-        ],
-    },
-    {
-        id: 'udp',
-        name: 'User Datagram Protocol',
-        abbreviation: 'UDP',
-        layer: 4,
-        layerName: 'Транспортный',
-        description:
-            'Простой, ненадёжный протокол без установления соединения. Не гарантирует доставку, порядок или целостность данных. Используется в приложениях, где скорость важнее надёжности (видео, аудио, DNS, игры).',
-        details: {
-            'Порт': 'Динамический (1–65535)',
-            'Соединение': 'Нет (без соединения)',
-            'Надёжность': 'Нет (best-effort)',
-            'Применение': 'Стриминг, VoIP, DNS, QUIC',
-        },
-        links: [
-            { title: 'RFC 768 — UDP', url: 'https://datatracker.ietf.org/doc/html/rfc768' },
-            { title: 'RFC 8085 — UDP Usage Guidelines', url: 'https://datatracker.ietf.org/doc/html/rfc8085' },
-        ],
-    },
-    {
-        id: 'quic',
-        name: 'Quick UDP Internet Connections',
-        abbreviation: 'QUIC',
-        layer: 4,
-        layerName: 'Транспортный',
-        description:
-            'Современный транспортный протокол, работающий поверх UDP. Обеспечивает мультиплексирование, шифрование (TLS 1.3), снижение задержек и устойчивость к потере пакетов. Используется в HTTP/3 и других приложениях Google.',
-        details: {
-            'Порт': '443 (обычно)',
-            'Транспорт': 'UDP',
-            'Шифрование': 'TLS 1.3 (встроенное)',
-            'Особенности': 'Mультиплексирование, 0-RTT, migration',
-        },
-        links: [
-            { title: 'RFC 9000 — QUIC', url: 'https://datatracker.ietf.org/doc/html/rfc9000' },
-            { title: 'RFC 9001 — QUIC TLS', url: 'https://datatracker.ietf.org/doc/html/rfc9001' },
-            { title: 'RFC 9002 — QUIC Recovery', url: 'https://datatracker.ietf.org/doc/html/rfc9002' },
-        ],
-    },
-
-    // ===== СЕТЕВОЙ УРОВЕНЬ (3) =====
-    {
-        id: 'ip',
-        name: 'Internet Protocol',
-        abbreviation: 'IP',
-        layer: 3,
-        layerName: 'Сетевой',
-        description:
-            'Основной протокол сетевого уровня, отвечающий за адресацию и маршрутизацию пакетов в интернете. Существует в двух версиях: IPv4 (32-битные адреса) и IPv6 (128-битные адреса). Работает на принципе "best-effort" без гарантий доставки.',
-        details: {
-            'Версии': 'IPv4 (32 бит), IPv6 (128 бит)',
-            'Адресация': 'IPv4: 192.168.0.1, IPv6: 2001:db8::1',
-            'Фрагментация': 'Да (MTU discovery)',
-            'Безопасность': 'Нет (IPsec опционально)',
-        },
-        links: [
-            { title: 'RFC 791 — IPv4', url: 'https://datatracker.ietf.org/doc/html/rfc791' },
-            { title: 'RFC 8200 — IPv6', url: 'https://datatracker.ietf.org/doc/html/rfc8200' },
-            { title: 'RFC 4291 — IPv6 Addressing', url: 'https://datatracker.ietf.org/doc/html/rfc4291' },
-        ],
-    },
-    {
-        id: 'icmp',
-        name: 'Internet Control Message Protocol',
-        abbreviation: 'ICMP',
-        layer: 3,
-        layerName: 'Сетевой',
-        description:
-            'Протокол для передачи диагностических сообщений и управления сетью. Используется в утилитах ping (Echo Request/Reply) и traceroute. Сообщает об ошибках маршрутизации, недоступности узлов и перегрузках.',
-        details: {
-            'Типы сообщений': '0 (Echo Reply), 3 (Destination Unreachable), 8 (Echo Request), 11 (Time Exceeded)',
-            'Коды': 'Дополнительная информация (например, 0 = Network Unreachable)',
-            'Применение': 'ping, traceroute, path MTU discovery',
-            'Безопасность': 'Часто блокируется в файрволах',
-        },
-        links: [
-            { title: 'RFC 792 — ICMP', url: 'https://datatracker.ietf.org/doc/html/rfc792' },
-            { title: 'RFC 4443 — ICMPv6', url: 'https://datatracker.ietf.org/doc/html/rfc4443' },
-        ],
-    },
-
-    // ===== КАНАЛЬНЫЙ УРОВЕНЬ (2) =====
-    {
-        id: 'ethernet',
-        name: 'Ethernet',
-        abbreviation: 'Ethernet (IEEE 802.3)',
-        layer: 2,
-        layerName: 'Канальный',
-        description:
-            'Семейство стандартов для проводных локальных сетей. Определяет физический уровень (кабели, сигналы) и канальный уровень (кадры, MAC-адресация). Является наиболее распространённой технологией для LAN.',
-        details: {
-            'Скорости': '10 Mbps, 100 Mbps, 1 Gbps, 10 Gbps, 40 Gbps, 100 Gbps',
-            'MAC-адреса': '48 бит (уникальные)',
-            'Кадры': 'Ethernet II (DIX), IEEE 802.3',
-            'Среда': 'Twisted pair (UTP), оптоволокно, коаксиал',
-        },
-        links: [
-            { title: 'IEEE 802.3 — Ethernet', url: 'https://standards.ieee.org/ieee/802.3/' },
-            { title: 'Ethernet Wikipedia', url: 'https://en.wikipedia.org/wiki/Ethernet' },
-        ],
-    },
-    {
-        id: 'wifi',
-        name: 'Wi-Fi (IEEE 802.11)',
-        abbreviation: 'Wi-Fi',
-        layer: 2,
-        layerName: 'Канальный',
-        description:
-            'Семейство стандартов для беспроводных локальных сетей. Определяет физический уровень (радиосигналы) и канальный уровень (кадры, MAC-адресация). Широко используется в домашних и корпоративных сетях.',
-        details: {
-            'Стандарты': '802.11a/b/g/n/ac/ax (Wi-Fi 6), be (Wi-Fi 7)',
-            'Частоты': '2.4 GHz, 5 GHz, 6 GHz',
-            'Безопасность': 'WEP, WPA, WPA2, WPA3',
-            'Скорости': 'До 9.6 Gbps (Wi-Fi 6)',
-        },
-        links: [
-            { title: 'IEEE 802.11 — Wi-Fi', url: 'https://standards.ieee.org/ieee/802.11/' },
-            { title: 'Wi-Fi Alliance', url: 'https://www.wi-fi.org/' },
-        ],
-    },
-
-    // ===== ДОПОЛНИТЕЛЬНЫЕ ПРОТОКОЛЫ =====
     {
         id: 'ssh',
         name: 'Secure Shell',
@@ -288,23 +217,22 @@ const PROTOCOLS = [
         ],
     },
     {
-        id: 'tls',
-        name: 'Transport Layer Security',
-        abbreviation: 'TLS',
-        layer: 6,
-        layerName: 'Сеансовый / Прикладной',
+        id: 'telnet',
+        name: 'Teletype Network Protocol',
+        abbreviation: 'TELNET',
+        layer: 7,
+        layerName: 'Прикладной',
         description:
-            'Криптографический протокол для защиты связи в интернете. Обеспечивает конфиденциальность, целостность и аутентификацию. Используется в HTTPS, почте, мессенджерах и многих других приложениях. Преемник SSL.',
+            'Протокол для удалённого доступа к серверам через текстовый интерфейс. Работает поверх TCP. Передаёт данные в открытом виде, поэтому считается небезопасным и вытесняется SSH.',
         details: {
-            'Версии': 'TLS 1.0 (устаревший), 1.1 (устаревший), 1.2, 1.3',
-            'Порт': '443 (HTTPS), 465 (SMTPS), 993 (IMAPS)',
-            'Шифрование': 'AES-GCM, ChaCha20-Poly1305',
-            'Рукопожатие': '1-RTT (TLS 1.3), 0-RTT (опционально)',
+            'Порт по умолчанию': '23',
+            'Транспорт': 'TCP',
+            'Опции': 'Echo, Suppress Go Ahead, Binary Transmission',
+            'Безопасность': 'Нет (передаётся в открытом виде)',
         },
         links: [
-            { title: 'RFC 8446 — TLS 1.3', url: 'https://datatracker.ietf.org/doc/html/rfc8446' },
-            { title: 'RFC 5246 — TLS 1.2', url: 'https://datatracker.ietf.org/doc/html/rfc5246' },
-            { title: 'RFC 4346 — TLS 1.1', url: 'https://datatracker.ietf.org/doc/html/rfc4346' },
+            { title: 'RFC 854 — TELNET', url: 'https://datatracker.ietf.org/doc/html/rfc854' },
+            { title: 'RFC 855 — TELNET Options', url: 'https://datatracker.ietf.org/doc/html/rfc855' },
         ],
     },
     {
@@ -346,6 +274,25 @@ const PROTOCOLS = [
         ],
     },
     {
+        id: 'amqp',
+        name: 'Advanced Message Queuing Protocol',
+        abbreviation: 'AMQP',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для обмена сообщениями между приложениями. Используется в брокерах сообщений (RabbitMQ, ActiveMQ). Обеспечивает маршрутизацию, надёжность и транзакционность.',
+        details: {
+            'Порт по умолчанию': '5672 (AMQP), 5671 (AMQPS)',
+            'Транспорт': 'TCP (TLS)',
+            'Модель': 'Producer → Exchange → Queue → Consumer',
+            'Фреймы': 'Метод, заголовок, тело',
+        },
+        links: [
+            { title: 'AMQP 1.0 Specification', url: 'https://www.amqp.org/specification/1.0/' },
+            { title: 'AMQP 0-9-1 Reference', url: 'https://www.rabbitmq.com/amqp-0-9-1-reference.html' },
+        ],
+    },
+    {
         id: 'grpc',
         name: 'gRPC Remote Procedure Call',
         abbreviation: 'gRPC',
@@ -364,58 +311,248 @@ const PROTOCOLS = [
             { title: 'gRPC on GitHub', url: 'https://github.com/grpc/grpc' },
         ],
     },
-];
-
-// ============================================================
-//  Вспомогательная функция для быстрого поиска
-// ============================================================
-
-function findProtocols(query) {
-    if (!query || query.trim() === '') {
-        return [];
-    }
-
-    const q = query.toLowerCase().trim();
-    const results = [];
-
-    for (const proto of PROTOCOLS) {
-        const nameMatch = proto.name.toLowerCase().includes(q);
-        const abbrMatch = proto.abbreviation.toLowerCase().includes(q);
-        const idMatch = proto.id.toLowerCase().includes(q);
-
-        if (nameMatch || abbrMatch || idMatch) {
-            results.push(proto);
-        }
-    }
-
-    // Сортировка: сначала точные совпадения по аббревиатуре, затем по имени
-    results.sort((a, b) => {
-        const aAbbr = a.abbreviation.toLowerCase();
-        const bAbbr = b.abbreviation.toLowerCase();
-        const aName = a.name.toLowerCase();
-        const bName = b.name.toLowerCase();
-
-        const aExactAbbr = aAbbr === q;
-        const bExactAbbr = bAbbr === q;
-        if (aExactAbbr && !bExactAbbr) return -1;
-        if (!aExactAbbr && bExactAbbr) return 1;
-
-        const aStartsAbbr = aAbbr.startsWith(q);
-        const bStartsAbbr = bAbbr.startsWith(q);
-        if (aStartsAbbr && !bStartsAbbr) return -1;
-        if (!aStartsAbbr && bStartsAbbr) return 1;
-
-        return aName.localeCompare(bName);
-    });
-
-    return results;
-}
-
-function getProtocolById(id) {
-    return PROTOCOLS.find((p) => p.id === id) || null;
-}
-
-// Экспорт для браузера
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { PROTOCOLS, findProtocols, getProtocolById };
-}
+    {
+        id: 'rest',
+        name: 'Representational State Transfer',
+        abbreviation: 'REST',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Архитектурный стиль для построения распределённых систем. Использует HTTP в качестве транспорта, стандартные методы (GET, POST, PUT, DELETE) и формат JSON/XML. Не является протоколом, но часто рассматривается как стандарт для API.',
+        details: {
+            'Транспорт': 'HTTP/HTTPS',
+            'Форматы': 'JSON, XML, HTML, YAML',
+            'Методы': 'GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS',
+            'Принципы': 'Клиент-сервер, отсутствие состояния, кеширование',
+        },
+        links: [
+            {
+                title: 'RESTful Web Services (Fielding)',
+                url: 'https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm',
+            },
+            { title: 'REST API Tutorial', url: 'https://restfulapi.net/' },
+        ],
+    },
+    {
+        id: 'graphql',
+        name: 'GraphQL Query Language',
+        abbreviation: 'GraphQL',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Язык запросов и среда выполнения для API, разработанный Facebook. Позволяет клиентам запрашивать только необходимые данные, уменьшая количество запросов и объём передаваемых данных.',
+        details: {
+            'Транспорт': 'HTTP/HTTPS (обычно POST)',
+            'Формат': 'JSON',
+            'Типы': 'Query, Mutation, Subscription',
+            'Интроспекция': 'Да (схема доступна через запросы)',
+        },
+        links: [
+            { title: 'GraphQL Specification', url: 'https://spec.graphql.org/' },
+            { title: 'GraphQL Documentation', url: 'https://graphql.org/learn/' },
+        ],
+    },
+    {
+        id: 'rtp',
+        name: 'Real-time Transport Protocol',
+        abbreviation: 'RTP',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для передачи аудио и видео в реальном времени поверх UDP. Используется в IP-телефонии (VoIP), видеоконференциях и стриминге. Обычно работает вместе с RTCP для управления сессией.',
+        details: {
+            'Порт': 'Обычно 16384-32767 (динамический)',
+            'Транспорт': 'UDP',
+            'Заголовок': '12 байт (как минимум)',
+            'Кодеки': 'Opus, VP8, H.264, AAC, PCM',
+        },
+        links: [
+            { title: 'RFC 3550 — RTP', url: 'https://datatracker.ietf.org/doc/html/rfc3550' },
+            { title: 'RFC 3551 — RTP Codecs', url: 'https://datatracker.ietf.org/doc/html/rfc3551' },
+        ],
+    },
+    {
+        id: 'rtsp',
+        name: 'Real Time Streaming Protocol',
+        abbreviation: 'RTSP',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для управления потоками мультимедиа. Используется для установки и управления медиа-сессиями между клиентом и сервером. Поддерживает VCR-команды: play, pause, fast-forward, rewind.',
+        details: {
+            'Порт по умолчанию': '554',
+            'Транспорт': 'TCP (управление), UDP/RTP (данные)',
+            'Команды': 'DESCRIBE, SETUP, PLAY, PAUSE, TEARDOWN',
+            'Методы': 'Аннонсирование, Запись, Воспроизведение',
+        },
+        links: [
+            { title: 'RFC 7826 — RTSP v2.0', url: 'https://datatracker.ietf.org/doc/html/rfc7826' },
+            { title: 'RFC 2326 — RTSP v1.0', url: 'https://datatracker.ietf.org/doc/html/rfc2326' },
+        ],
+    },
+    {
+        id: 'sip',
+        name: 'Session Initiation Protocol',
+        abbreviation: 'SIP',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для установки, управления и завершения сессий связи (голос, видео, сообщения). Широко используется в VoIP-системах. Работает поверх TCP или UDP, обычно вместе с RTP для передачи медиа.',
+        details: {
+            'Порт по умолчанию': '5060 (UDP/TCP), 5061 (TLS)',
+            'Транспорт': 'UDP, TCP, TLS',
+            'Методы': 'INVITE, ACK, BYE, CANCEL, REGISTER, OPTIONS',
+            'Коды ответа': '1xx (Информационные), 2xx (Успех), 3xx (Перенаправление)',
+        },
+        links: [
+            { title: 'RFC 3261 — SIP', url: 'https://datatracker.ietf.org/doc/html/rfc3261' },
+            { title: 'RFC 3263 — SIP Locating', url: 'https://datatracker.ietf.org/doc/html/rfc3263' },
+        ],
+    },
+    {
+        id: 'ldap',
+        name: 'Lightweight Directory Access Protocol',
+        abbreviation: 'LDAP',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для доступа к каталогам (директориям) по сети. Используется для хранения и поиска информации о пользователях, компьютерах и других объектах. Часто применяется в корпоративных сетях (Active Directory).',
+        details: {
+            'Порт по умолчанию': '389 (LDAP), 636 (LDAPS)',
+            'Транспорт': 'TCP (TLS)',
+            'Операции': 'Bind, Search, Compare, Add, Delete, Modify, Move',
+            'Модель': 'Иерархическая (DIT — Directory Information Tree)',
+        },
+        links: [
+            { title: 'RFC 4510 — LDAP v3', url: 'https://datatracker.ietf.org/doc/html/rfc4510' },
+            { title: 'RFC 4511 — LDAP Protocol', url: 'https://datatracker.ietf.org/doc/html/rfc4511' },
+        ],
+    },
+    {
+        id: 'snmp',
+        name: 'Simple Network Management Protocol',
+        abbreviation: 'SNMP',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для управления сетевыми устройствами (маршрутизаторы, коммутаторы, принтеры). Позволяет собирать информацию и настраивать параметры устройств. Использует MIB (Management Information Base) для описания данных.',
+        details: {
+            'Порт по умолчанию': '161 (агент), 162 (trap)',
+            'Транспорт': 'UDP',
+            'Версии': 'SNMPv1, v2c, v3 (с безопасностью)',
+            'Операции': 'GET, GETNEXT, SET, GETBULK, TRAP',
+        },
+        links: [
+            { title: 'RFC 1157 — SNMP v1', url: 'https://datatracker.ietf.org/doc/html/rfc1157' },
+            { title: 'RFC 3411 — SNMP v3', url: 'https://datatracker.ietf.org/doc/html/rfc3411' },
+        ],
+    },
+    {
+        id: 'ntp',
+        name: 'Network Time Protocol',
+        abbreviation: 'NTP',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для синхронизации времени в компьютерных сетях. Использует иерархию серверов времени (страты) для достижения точности до миллисекунд. Является критическим для многих распределённых систем.',
+        details: {
+            'Порт по умолчанию': '123 (UDP)',
+            'Транспорт': 'UDP',
+            'Точность': 'Миллисекунды (LAN), десятки миллисекунд (WAN)',
+            'Страты': '0 (эталон), 1 (первичный), 2 (вторичный), ...',
+        },
+        links: [
+            { title: 'RFC 5905 — NTP v4', url: 'https://datatracker.ietf.org/doc/html/rfc5905' },
+            { title: 'RFC 1305 — NTP v3', url: 'https://datatracker.ietf.org/doc/html/rfc1305' },
+        ],
+    },
+    {
+        id: 'syslog',
+        name: 'System Logging Protocol',
+        abbreviation: 'Syslog',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для отправки и приёма логов в сети. Используется для централизованного сбора журналов событий от различных устройств и приложений. Поддерживает классификацию по важности и типу.',
+        details: {
+            'Порт по умолчанию': '514 (UDP), 6514 (TLS)',
+            'Транспорт': 'UDP, TCP, TLS',
+            'Уровни важности': 'Emergency, Alert, Critical, Error, Warning, Notice, Info, Debug',
+            'Объекты': 'Kernel, User, Mail, System, Security, Network',
+        },
+        links: [
+            { title: 'RFC 5424 — Syslog Protocol', url: 'https://datatracker.ietf.org/doc/html/rfc5424' },
+            { title: 'RFC 5425 — Syslog TLS', url: 'https://datatracker.ietf.org/doc/html/rfc5425' },
+        ],
+    },
+    {
+        id: 'xmpp',
+        name: 'Extensible Messaging and Presence Protocol',
+        abbreviation: 'XMPP',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для обмена сообщениями в реальном времени, основанный на XML. Используется в мессенджерах (Jabber, WhatsApp, Google Talk) и IoT. Обеспечивает федеративную архитектуру (серверы обмениваются данными).',
+        details: {
+            'Порт по умолчанию': '5222 (клиент-сервер), 5269 (сервер-сервер)',
+            'Транспорт': 'TCP (TLS)',
+            'Формат': 'XML (Streams and Stanzas)',
+            'Расширения': 'XEP (XMPP Extension Protocols)',
+        },
+        links: [
+            { title: 'RFC 6120 — XMPP Core', url: 'https://datatracker.ietf.org/doc/html/rfc6120' },
+            { title: 'RFC 6121 — XMPP IM', url: 'https://datatracker.ietf.org/doc/html/rfc6121' },
+        ],
+    },
+    {
+        id: 'ical',
+        name: 'Internet Calendaring and Scheduling Core',
+        abbreviation: 'iCalendar',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Стандарт для обмена календарной информацией и планирования событий. Использует формат iCalendar (.ics) для описания событий, задач и встреч. Часто применяется для публикации календарей и обмена приглашениями.',
+        details: {
+            'Формат': 'iCalendar (.ics)',
+            'Транспорт': 'HTTP/HTTPS, E-mail (iMIP)',
+            'Компоненты': 'VEVENT, VTODO, VJOURNAL, VFREEBUSY',
+            'Свойства': 'SUMMARY, DTSTART, DTEND, LOCATION, ATTENDEE',
+        },
+        links: [
+            { title: 'RFC 5545 — iCalendar', url: 'https://datatracker.ietf.org/doc/html/rfc5545' },
+            { title: 'RFC 5546 — iTIP (iCalendar Transport)', url: 'https://datatracker.ietf.org/doc/html/rfc5546' },
+        ],
+    },
+    {
+        id: 'smpp',
+        name: 'Short Message Peer-to-Peer Protocol',
+        abbreviation: 'SMPP',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для обмена SMS-сообщениями между операторами мобильной связи и приложениями. Используется в SMS-шлюзах, маркетинговых платформах и системах двухфакторной аутентификации. Обеспечивает доставку, статусы и транзакционность.',
+        details: {
+            'Порт по умолчанию': '2775',
+            'Транспорт': 'TCP',
+            'Версии': 'SMPP v3.3, v3.4, v5.0 (самая распространенная v3.4)',
+            'Команды': 'BIND_TRANSCEIVER, SUBMIT_SM, DELIVER_SM, ENQUIRE_LINK, UNBIND',
+            'Статусы': 'DELIVRD (доставлено), EXPIRED, DELETED, UNDELIV, ACCEPTD',
+        },
+        links: [
+            { title: 'SMPP v3.4 Specification', url: 'https://smpp.org/SMPP_v3_4_Issue1_2.pdf' },
+            { title: 'SMPP v5.0 Specification', url: 'https://smpp.org/SMPP_v5_0.pdf' },
+            { title: 'SMPP Protocol Overview', url: 'https://smpp.org/' },
+        ],
+    },
+    {
+        id: 'ussd',
+        name: 'Unstructured Supplementary Service Data',
+        abbreviation: 'USSD',
+        layer: 7,
+        layerName: 'Прикладной',
+        description:
+            'Протокол для передачи коротких сообщений в сетях GSM. Используется для интерактивных услуг мобильных операторов (баланс, тарифы, услуги). Отличается от SMS тем, что устанавливает сессию и поддерживает диалог.',
+        details: {
+            'Транспорт': 'GSM MAP (Signaling)',
+            'Коды': '*100# (баланс), *111# (услуги) и т.д.',
+            'Сессии': 'Интерактивные (запрос-ответ)',
