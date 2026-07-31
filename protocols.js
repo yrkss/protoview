@@ -1,10 +1,10 @@
 // ============================================================
-//  Network Protocols Database
-//  Add new protocols following the structure below.
+//  Network Protocols Database — Complete OSI Model (Layers 1-7)
+//  Total: 61 protocols
 // ============================================================
 
 const PROTOCOLS = [
-    // ===== APPLICATION LAYER (7) =====
+    // ===== LAYER 7: APPLICATION =====
     {
         id: 'http',
         name: 'HyperText Transfer Protocol',
@@ -66,6 +66,41 @@ const PROTOCOLS = [
         ],
     },
     {
+        id: 'sftp',
+        name: 'SSH File Transfer Protocol',
+        abbreviation: 'SFTP',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Secure protocol for file transfer over SSH. Provides encryption, authentication, and data integrity. Used instead of FTP for secure file transfer.',
+        details: {
+            'Default Port': '22 (SSH)',
+            'Transport': 'TCP (SSH)',
+            'Commands': 'open, close, read, write, remove, rename, mkdir, rmdir',
+            'Security': 'SSH encryption',
+        },
+        links: [
+            { title: 'RFC 913 — SFTP (updated)', url: 'https://datatracker.ietf.org/doc/html/rfc913' },
+            { title: 'SFTP Specification', url: 'https://filezilla-project.org/sftp_spec.htm' },
+        ],
+    },
+    {
+        id: 'ftps',
+        name: 'FTP over SSL/TLS',
+        abbreviation: 'FTPS',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Secure version of FTP using SSL/TLS for encrypting control and data channels. Provides confidentiality and authentication.',
+        details: {
+            'Default Port': '990 (control), 989 (data)',
+            'Transport': 'TCP (TLS)',
+            'Modes': 'Explicit TLS, Implicit TLS',
+            'Security': 'TLS 1.2 / 1.3',
+        },
+        links: [{ title: 'RFC 4217 — FTP over TLS', url: 'https://datatracker.ietf.org/doc/html/rfc4217' }],
+    },
+    {
         id: 'smtp',
         name: 'Simple Mail Transfer Protocol',
         abbreviation: 'SMTP',
@@ -82,6 +117,44 @@ const PROTOCOLS = [
         links: [
             { title: 'RFC 5321 — SMTP', url: 'https://datatracker.ietf.org/doc/html/rfc5321' },
             { title: 'RFC 5322 — Email Format', url: 'https://datatracker.ietf.org/doc/html/rfc5322' },
+        ],
+    },
+    {
+        id: 'pop3',
+        name: 'Post Office Protocol version 3',
+        abbreviation: 'POP3',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Protocol for retrieving email from a mail server. Downloads messages to the client and usually deletes them from the server. Simpler than IMAP but less functional.',
+        details: {
+            'Default Port': '110 (unencrypted), 995 (POP3S)',
+            'Transport': 'TCP',
+            'Commands': 'USER, PASS, STAT, LIST, RETR, DELE, QUIT',
+            'States': 'Authorization, Transaction, Update',
+        },
+        links: [
+            { title: 'RFC 1939 — POP3', url: 'https://datatracker.ietf.org/doc/html/rfc1939' },
+            { title: 'RFC 2595 — POP3 over TLS', url: 'https://datatracker.ietf.org/doc/html/rfc2595' },
+        ],
+    },
+    {
+        id: 'imap',
+        name: 'Internet Message Access Protocol',
+        abbreviation: 'IMAP',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Protocol for accessing email on a server. Allows managing folders, searching messages, and synchronizing state across devices. More powerful than POP3.',
+        details: {
+            'Default Port': '143 (unencrypted), 993 (IMAPS)',
+            'Transport': 'TCP',
+            'Commands': 'LOGIN, SELECT, FETCH, SEARCH, STORE, APPEND, CLOSE',
+            'States': 'Unauthenticated, Authenticated, Selected',
+        },
+        links: [
+            { title: 'RFC 9051 — IMAP v4rev2', url: 'https://datatracker.ietf.org/doc/html/rfc9051' },
+            { title: 'RFC 2595 — IMAP over TLS', url: 'https://datatracker.ietf.org/doc/html/rfc2595' },
         ],
     },
     {
@@ -144,6 +217,25 @@ const PROTOCOLS = [
         ],
     },
     {
+        id: 'telnet',
+        name: 'Teletype Network Protocol',
+        abbreviation: 'TELNET',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Protocol for remote access to servers via text interface. Runs over TCP. Transmits data in plain text, so it is considered insecure and replaced by SSH.',
+        details: {
+            'Default Port': '23',
+            'Transport': 'TCP',
+            'Options': 'Echo, Suppress Go Ahead, Binary Transmission',
+            'Security': 'None (transmitted in plain text)',
+        },
+        links: [
+            { title: 'RFC 854 — TELNET', url: 'https://datatracker.ietf.org/doc/html/rfc854' },
+            { title: 'RFC 855 — TELNET Options', url: 'https://datatracker.ietf.org/doc/html/rfc855' },
+        ],
+    },
+    {
         id: 'websocket',
         name: 'WebSocket Protocol',
         abbreviation: 'WebSocket',
@@ -179,6 +271,25 @@ const PROTOCOLS = [
         links: [
             { title: 'MQTT v5.0 Specification', url: 'https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html' },
             { title: 'MQTT v3.1.1 Specification', url: 'https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html' },
+        ],
+    },
+    {
+        id: 'amqp',
+        name: 'Advanced Message Queuing Protocol',
+        abbreviation: 'AMQP',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Protocol for message exchange between applications. Used in message brokers (RabbitMQ, ActiveMQ). Provides routing, reliability, and transactional support.',
+        details: {
+            'Default Port': '5672 (AMQP), 5671 (AMQPS)',
+            'Transport': 'TCP (TLS)',
+            'Model': 'Producer → Exchange → Queue → Consumer',
+            'Frames': 'Method, header, body',
+        },
+        links: [
+            { title: 'AMQP 1.0 Specification', url: 'https://www.amqp.org/specification/1.0/' },
+            { title: 'AMQP 0-9-1 Reference', url: 'https://www.rabbitmq.com/amqp-0-9-1-reference.html' },
         ],
     },
     {
@@ -258,6 +369,25 @@ const PROTOCOLS = [
         links: [
             { title: 'RFC 3550 — RTP', url: 'https://datatracker.ietf.org/doc/html/rfc3550' },
             { title: 'RFC 3551 — RTP Codecs', url: 'https://datatracker.ietf.org/doc/html/rfc3551' },
+        ],
+    },
+    {
+        id: 'rtsp',
+        name: 'Real Time Streaming Protocol',
+        abbreviation: 'RTSP',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Protocol for controlling media streams. Used to set up and manage media sessions between client and server. Supports VCR commands: play, pause, fast-forward, rewind.',
+        details: {
+            'Default Port': '554',
+            'Transport': 'TCP (control), UDP/RTP (data)',
+            'Commands': 'DESCRIBE, SETUP, PLAY, PAUSE, TEARDOWN',
+            'Methods': 'Announce, Record, Playback',
+        },
+        links: [
+            { title: 'RFC 7826 — RTSP v2.0', url: 'https://datatracker.ietf.org/doc/html/rfc7826' },
+            { title: 'RFC 2326 — RTSP v1.0', url: 'https://datatracker.ietf.org/doc/html/rfc2326' },
         ],
     },
     {
@@ -375,6 +505,25 @@ const PROTOCOLS = [
         ],
     },
     {
+        id: 'ical',
+        name: 'Internet Calendaring and Scheduling Core',
+        abbreviation: 'iCalendar',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Standard for exchanging calendar information and scheduling events. Uses iCalendar format (.ics) to describe events, tasks, and meetings. Often used for publishing calendars and sharing invitations.',
+        details: {
+            'Format': 'iCalendar (.ics)',
+            'Transport': 'HTTP/HTTPS, E-mail (iMIP)',
+            'Components': 'VEVENT, VTODO, VJOURNAL, VFREEBUSY',
+            'Properties': 'SUMMARY, DTSTART, DTEND, LOCATION, ATTENDEE',
+        },
+        links: [
+            { title: 'RFC 5545 — iCalendar', url: 'https://datatracker.ietf.org/doc/html/rfc5545' },
+            { title: 'RFC 5546 — iTIP (iCalendar Transport)', url: 'https://datatracker.ietf.org/doc/html/rfc5546' },
+        ],
+    },
+    {
         id: 'smpp',
         name: 'Short Message Peer-to-Peer Protocol',
         abbreviation: 'SMPP',
@@ -393,6 +542,25 @@ const PROTOCOLS = [
             { title: 'SMPP v3.4 Specification', url: 'https://smpp.org/SMPP_v3_4_Issue1_2.pdf' },
             { title: 'SMPP v5.0 Specification', url: 'https://smpp.org/SMPP_v5_0.pdf' },
             { title: 'SMPP Protocol Overview', url: 'https://smpp.org/' },
+        ],
+    },
+    {
+        id: 'ussd',
+        name: 'Unstructured Supplementary Service Data',
+        abbreviation: 'USSD',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Protocol for sending short messages in GSM networks. Used for interactive mobile operator services (balance, tariffs, services). Unlike SMS, it establishes a session and supports dialogue.',
+        details: {
+            'Transport': 'GSM MAP (Signaling)',
+            'Codes': '*100# (balance), *111# (services), etc.',
+            'Sessions': 'Interactive (request-response)',
+            'Usage': 'Mobile operators, banking services, voting',
+        },
+        links: [
+            { title: 'USSD Technical Specification', url: 'https://www.etsi.org/deliver/etsi_ts/122000_122099/122090/' },
+            { title: 'USSD Wikipedia', url: 'https://en.wikipedia.org/wiki/Unstructured_Supplementary_Service_Data' },
         ],
     },
     {
@@ -501,6 +669,69 @@ const PROTOCOLS = [
         ],
     },
     {
+        id: 'cifs',
+        name: 'Common Internet File System',
+        abbreviation: 'CIFS',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Dialect of the SMB protocol developed by Microsoft. Used for file and printer sharing over a network. An older version of SMB, but the term is often used as a synonym for SMB.',
+        details: {
+            'Port': '445',
+            'Transport': 'TCP',
+            'Features': 'Supports transactions, authentication, caching',
+            'Status': 'Replaced by SMB 2.0 and above',
+        },
+        links: [
+            {
+                title: 'CIFS Protocol Specification',
+                url: 'https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-cifs/',
+            },
+            { title: 'CIFS Wikipedia', url: 'https://en.wikipedia.org/wiki/Server_Message_Block#CIFS' },
+        ],
+    },
+    {
+        id: 'dicom',
+        name: 'Digital Imaging and Communications in Medicine',
+        abbreviation: 'DICOM',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Standard for transmitting, storing, and exchanging medical images (X-ray, MRI, CT) and related information. Used in medical information systems (PACS, RIS).',
+        details: {
+            'Port': '11112 (DICOM), 2762 (DICOM TLS)',
+            'Transport': 'TCP, DICOM Web Services (REST)',
+            'Objects': 'Image, Study, Series, Patient, Modality',
+            'Formats': 'DICOM (.dcm), JPEG, JPEG2000, MPEG',
+        },
+        links: [
+            { title: 'DICOM Standard', url: 'https://www.dicomstandard.org/' },
+            {
+                title: 'DICOM Introduction',
+                url: 'https://dicom.nema.org/medical/dicom/current/output/html/part01.html',
+            },
+        ],
+    },
+    {
+        id: 'hl7',
+        name: 'Health Level Seven International',
+        abbreviation: 'HL7',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Standard for exchanging data in healthcare. Defines formats and protocols for transmitting medical information between systems (EHR, laboratories, pharmacies).',
+        details: {
+            'Versions': 'HL7 v2 (text-based), v3 (XML), FHIR (RESTful API)',
+            'Transport': 'MLLP (TCP), HTTP (FHIR)',
+            'Messages': 'ADT (registration), ORU (results), ORM (orders)',
+            'Formats': 'Pipe-delimited, XML, JSON (FHIR)',
+        },
+        links: [
+            { title: 'HL7 International', url: 'https://www.hl7.org/' },
+            { title: 'HL7 FHIR Specification', url: 'https://hl7.org/fhir/' },
+        ],
+    },
+    {
         id: 'modbus',
         name: 'Modbus Protocol',
         abbreviation: 'Modbus',
@@ -520,6 +751,25 @@ const PROTOCOLS = [
                 url: 'https://modbus.org/docs/Modbus_Application_Protocol_V1_1b3.pdf',
             },
             { title: 'Modbus Organization', url: 'https://modbus.org/' },
+        ],
+    },
+    {
+        id: 'bacnet',
+        name: 'Building Automation and Control Networks',
+        abbreviation: 'BACnet',
+        layer: 7,
+        layerName: 'Application',
+        description:
+            'Protocol for building automation systems (HVAC, lighting, security). Developed by ASHRAE. Supports multiple transport technologies (BACnet/IP, MS/TP, ARCnet, Zigbee).',
+        details: {
+            'Transport': 'UDP (BACnet/IP), RS-485 (MS/TP)',
+            'Port': '47808 (BACnet/IP)',
+            'Objects': 'AnalogInput, AnalogOutput, BinaryInput, BinaryOutput, Device',
+            'Properties': 'PresentValue, Units, Description, Reliability',
+        },
+        links: [
+            { title: 'BACnet Standard (ASHRAE 135)', url: 'https://www.bacnet.org/' },
+            { title: 'BACnet Protocol Stack', url: 'https://bacnet.sourceforge.net/' },
         ],
     },
     {
@@ -564,7 +814,7 @@ const PROTOCOLS = [
         ],
     },
 
-    // ===== PRESENTATION LAYER (6) =====
+    // ===== LAYER 6: PRESENTATION =====
     {
         id: 'tls',
         name: 'Transport Layer Security',
@@ -604,7 +854,28 @@ const PROTOCOLS = [
         ],
     },
 
-    // ===== TRANSPORT LAYER (4) =====
+    // ===== LAYER 5: SESSION =====
+    {
+        id: 'netbios',
+        name: 'Network Basic Input/Output System',
+        abbreviation: 'NetBIOS',
+        layer: 5,
+        layerName: 'Session',
+        description:
+            'Protocol for providing communication services on local networks. Works at the session layer, establishing and maintaining connections. Often used with NetBEUI and TCP/IP.',
+        details: {
+            'Port': '137 (NetBIOS Name), 138 (Datagram), 139 (Session)',
+            'Transport': 'UDP (name, datagram), TCP (session)',
+            'Services': 'Name Service, Datagram Service, Session Service',
+            'Status': 'Legacy, mostly replaced by DNS and SMB',
+        },
+        links: [
+            { title: 'RFC 1001 — NetBIOS over TCP/IP', url: 'https://datatracker.ietf.org/doc/html/rfc1001' },
+            { title: 'RFC 1002 — NetBIOS over TCP/IP', url: 'https://datatracker.ietf.org/doc/html/rfc1002' },
+        ],
+    },
+
+    // ===== LAYER 4: TRANSPORT =====
     {
         id: 'tcp',
         name: 'Transmission Control Protocol',
@@ -664,8 +935,27 @@ const PROTOCOLS = [
             { title: 'RFC 9002 — QUIC Recovery', url: 'https://datatracker.ietf.org/doc/html/rfc9002' },
         ],
     },
+    {
+        id: 'sctp',
+        name: 'Stream Control Transmission Protocol',
+        abbreviation: 'SCTP',
+        layer: 4,
+        layerName: 'Transport',
+        description:
+            'Reliable transport protocol with multi-homing and stream multiplexing support. Used in telephony networks (SIGTRAN) and some VoIP systems. Combines advantages of TCP and UDP.',
+        details: {
+            'Port': 'Dynamic (1–65535)',
+            'Connection': 'Four-way handshake (INIT, INIT-ACK, COOKIE-ECHO, COOKIE-ACK)',
+            'Reliability': 'SACK, retransmission',
+            'Features': 'Multi-homing, stream multiplexing',
+        },
+        links: [
+            { title: 'RFC 4960 — SCTP', url: 'https://datatracker.ietf.org/doc/html/rfc4960' },
+            { title: 'RFC 3286 — SCTP Introduction', url: 'https://datatracker.ietf.org/doc/html/rfc3286' },
+        ],
+    },
 
-    // ===== NETWORK LAYER (3) =====
+    // ===== LAYER 3: NETWORK =====
     {
         id: 'ipv4',
         name: 'Internet Protocol version 4',
@@ -725,6 +1015,45 @@ const PROTOCOLS = [
         ],
     },
     {
+        id: 'igmp',
+        name: 'Internet Group Management Protocol',
+        abbreviation: 'IGMP',
+        layer: 3,
+        layerName: 'Network',
+        description:
+            'Protocol for managing multicast group addressing in IPv4 networks. Used by hosts to inform routers about their desire to receive multicast traffic for specific groups.',
+        details: {
+            'Versions': 'IGMPv1, v2, v3',
+            'Transport': 'IP (with header)',
+            'Messages': 'Membership Query, Membership Report, Leave Group',
+            'Usage': 'IPTV, video conferencing',
+        },
+        links: [
+            { title: 'RFC 1112 — IGMPv1', url: 'https://datatracker.ietf.org/doc/html/rfc1112' },
+            { title: 'RFC 2236 — IGMPv2', url: 'https://datatracker.ietf.org/doc/html/rfc2236' },
+            { title: 'RFC 3376 — IGMPv3', url: 'https://datatracker.ietf.org/doc/html/rfc3376' },
+        ],
+    },
+    {
+        id: 'arp',
+        name: 'Address Resolution Protocol',
+        abbreviation: 'ARP',
+        layer: 3,
+        layerName: 'Network',
+        description:
+            'Protocol for translating IP addresses to MAC addresses in local networks. Works only within a single network segment (broadcast domain). Critical for Ethernet and other link-layer technologies.',
+        details: {
+            'Transport': 'Directly over link layer',
+            'Message Types': 'ARP Request, ARP Reply',
+            'Cache': 'ARP table (usually 5-10 minutes)',
+            'Security': 'Vulnerable to ARP Spoofing (Man-in-the-Middle attacks)',
+        },
+        links: [
+            { title: 'RFC 826 — ARP', url: 'https://datatracker.ietf.org/doc/html/rfc826' },
+            { title: 'RFC 5227 — IPv4 Address Conflict Detection', url: 'https://datatracker.ietf.org/doc/html/rfc5227' },
+        ],
+    },
+    {
         id: 'ipsec',
         name: 'Internet Protocol Security',
         abbreviation: 'IPsec',
@@ -762,7 +1091,7 @@ const PROTOCOLS = [
         ],
     },
 
-    // ===== DATA LINK LAYER (2) =====
+    // ===== LAYER 2: DATA LINK =====
     {
         id: 'ethernet',
         name: 'Ethernet (IEEE 802.3)',
@@ -802,6 +1131,64 @@ const PROTOCOLS = [
         ],
     },
     {
+        id: 'vlan',
+        name: 'Virtual Local Area Network (IEEE 802.1Q)',
+        abbreviation: 'VLAN',
+        layer: 2,
+        layerName: 'Data Link',
+        description:
+            'Technology for logically partitioning networks into isolated segments. Allows grouping devices regardless of physical location. Improves network security and performance.',
+        details: {
+            'Standard': 'IEEE 802.1Q',
+            'Tags': '4-byte header (VLAN ID 1-4094)',
+            'Port Types': 'Access (Untagged), Trunk (Tagged)',
+            'VLAN ID': '1 (default), 2-4094 (user-defined)',
+        },
+        links: [
+            { title: 'IEEE 802.1Q — VLAN', url: 'https://standards.ieee.org/ieee/802.1Q/' },
+            { title: 'VLAN Wikipedia', url: 'https://en.wikipedia.org/wiki/Virtual_LAN' },
+        ],
+    },
+    {
+        id: 'ppp',
+        name: 'Point-to-Point Protocol',
+        abbreviation: 'PPP',
+        layer: 2,
+        layerName: 'Data Link',
+        description:
+            'Protocol for establishing direct connection between two nodes. Used in dial-up, DSL, and VPN connections. Supports authentication (PAP, CHAP), encryption, and data compression.',
+        details: {
+            'Transport': 'Serial, Ethernet (PPPoE)',
+            'Frames': 'Flags, Address, Control, Protocol, Data, FCS',
+            'Authentication': 'PAP, CHAP, EAP',
+            'NCP': 'Network Control Protocols (IPCP, IPXCP, IPv6CP)',
+        },
+        links: [
+            { title: 'RFC 1661 — PPP', url: 'https://datatracker.ietf.org/doc/html/rfc1661' },
+            { title: 'RFC 1334 — PAP/CHAP', url: 'https://datatracker.ietf.org/doc/html/rfc1334' },
+            { title: 'RFC 2516 — PPPoE', url: 'https://datatracker.ietf.org/doc/html/rfc2516' },
+        ],
+    },
+    {
+        id: 'can',
+        name: 'Controller Area Network',
+        abbreviation: 'CAN',
+        layer: 2,
+        layerName: 'Data Link',
+        description:
+            'Protocol for automotive and industrial real-time systems. Used for communication between electronic control units (ECUs) in vehicles, robotics, and industrial applications.',
+        details: {
+            'Speeds': 'Up to 1 Mbps (CAN), up to 5 Mbps (CAN FD)',
+            'Frames': 'Data Frame, Remote Frame, Error Frame, Overload Frame',
+            'ID': '11-bit (CAN 2.0A), 29-bit (CAN 2.0B)',
+            'Transport': 'Physical layer (CAN_H/CAN_L)',
+        },
+        links: [
+            { title: 'CAN Specification 2.0', url: 'https://www.can-cia.org/can-specification/' },
+            { title: 'CAN in Automation (CiA)', url: 'https://www.can-cia.org/' },
+        ],
+    },
+    {
         id: 'zigbee',
         name: 'Zigbee Protocol (IEEE 802.15.4)',
         abbreviation: 'Zigbee',
@@ -837,6 +1224,141 @@ const PROTOCOLS = [
         links: [
             { title: 'Z-Wave Alliance', url: 'https://z-wavealliance.org/' },
             { title: 'Z-Wave Protocol Overview', url: 'https://z-wavealliance.org/z-wave-technology/' },
+        ],
+    },
+
+    // ===== LAYER 1: PHYSICAL =====
+    {
+        id: 'usb',
+        name: 'Universal Serial Bus',
+        abbreviation: 'USB',
+        layer: 1,
+        layerName: 'Physical',
+        description:
+            'Industry standard for short-distance digital data communication. Defines cables, connectors, and communication protocols for connection, communication, and power supply between computers and peripherals.',
+        details: {
+            'Versions': 'USB 1.0, 1.1, 2.0, 3.0, 3.1, 3.2, USB4',
+            'Speeds': 'Up to 40 Gbps (USB4)',
+            'Connectors': 'Type-A, Type-B, Type-C, Micro, Mini',
+            'Power': 'Up to 240W (USB PD 3.1)',
+        },
+        links: [
+            { title: 'USB Specifications', url: 'https://www.usb.org/documents' },
+            { title: 'USB Wikipedia', url: 'https://en.wikipedia.org/wiki/USB' },
+        ],
+    },
+    {
+        id: 'dsl',
+        name: 'Digital Subscriber Line',
+        abbreviation: 'DSL',
+        layer: 1,
+        layerName: 'Physical',
+        description:
+            'Family of technologies for transmitting digital data over telephone lines. Uses high-frequency bands for data while voice uses low-frequency bands. Provides broadband internet access.',
+        details: {
+            'Variants': 'ADSL, VDSL, SDSL, HDSL',
+            'Speeds': 'Up to 100 Mbps (VDSL2), up to 10 Gbps (G.fast)',
+            'Distance': 'Up to 5 km (ADSL), up to 1 km (VDSL)',
+            'Frequency': '25 kHz to 1.1 MHz (ADSL), up to 30 MHz (VDSL2)',
+        },
+        links: [
+            { title: 'ITU G.992 — ADSL', url: 'https://www.itu.int/rec/T-REC-G.992' },
+            { title: 'ITU G.993 — VDSL', url: 'https://www.itu.int/rec/T-REC-G.993' },
+        ],
+    },
+    {
+        id: 'sonet',
+        name: 'Synchronous Optical Networking',
+        abbreviation: 'SONET/SDH',
+        layer: 1,
+        layerName: 'Physical',
+        description:
+            'Standard for synchronous data transmission over optical fiber. Used in telecommunications backbone networks. Provides high-speed, reliable data transport with built-in error correction.',
+        details: {
+            'Speeds': '51.84 Mbps (OC-1) to 160 Gbps (OC-3072)',
+            'Frames': 'STM-1, STM-4, STM-16, STM-64, STM-256',
+            'Signal': 'Optical (OC) / Electrical (STS)',
+            'Applications': 'Backbone networks, telecommunications',
+        },
+        links: [
+            { title: 'ITU G.707 — SDH', url: 'https://www.itu.int/rec/T-REC-G.707' },
+            { title: 'SONET Wikipedia', url: 'https://en.wikipedia.org/wiki/Synchronous_Optical_Networking' },
+        ],
+    },
+    {
+        id: 'pon',
+        name: 'Passive Optical Network',
+        abbreviation: 'PON',
+        layer: 1,
+        layerName: 'Physical',
+        description:
+            'Technology for delivering fiber-to-the-home (FTTH) broadband access. Uses passive splitters to serve multiple customers from a single fiber. Provides high-speed internet, voice, and video services.',
+        details: {
+            'Variants': 'GPON, EPON, XG-PON, NG-PON2',
+            'Speeds': 'Up to 2.5 Gbps (GPON), up to 10 Gbps (XG-PON)',
+            'Split Ratio': '1:32, 1:64, up to 1:128',
+            'Distance': 'Up to 20 km',
+        },
+        links: [
+            { title: 'ITU G.984 — GPON', url: 'https://www.itu.int/rec/T-REC-G.984' },
+            { title: 'PON Wikipedia', url: 'https://en.wikipedia.org/wiki/Passive_optical_network' },
+        ],
+    },
+    {
+        id: 'rs232',
+        name: 'RS-232 Serial Communication',
+        abbreviation: 'RS-232',
+        layer: 1,
+        layerName: 'Physical',
+        description:
+            'Standard for serial communication transmission. Defines electrical characteristics, signal timing, and connector pinouts. Widely used in legacy systems, industrial equipment, and embedded devices.',
+        details: {
+            'Signal Levels': '+3V to +15V (logic 0), -3V to -15V (logic 1)',
+            'Speeds': 'Up to 115.2 kbps (standard), up to 1 Mbps (custom)',
+            'Connectors': 'DB-9, DB-25',
+            'Distance': 'Up to 15 meters at 9600 baud',
+        },
+        links: [
+            { title: 'RS-232 EIA/TIA-232-F', url: 'https://www.eia.org/standards' },
+            { title: 'RS-232 Wikipedia', url: 'https://en.wikipedia.org/wiki/RS-232' },
+        ],
+    },
+    {
+        id: 'thunderbolt',
+        name: 'Thunderbolt Interface',
+        abbreviation: 'Thunderbolt',
+        layer: 1,
+        layerName: 'Physical',
+        description:
+            'High-speed hardware interface for connecting external peripherals. Combines PCI Express and DisplayPort into a single cable. Provides data transfer, video output, and power delivery.',
+        details: {
+            'Versions': 'Thunderbolt 1, 2, 3, 4, 5',
+            'Speeds': 'Up to 40 Gbps (TB3/TB4), up to 80 Gbps (TB5)',
+            'Connector': 'Mini DisplayPort (TB1/TB2), USB-C (TB3/TB4/TB5)',
+            'Power': 'Up to 100W (TB4)',
+        },
+        links: [
+            { title: 'Thunderbolt Technology', url: 'https://www.intel.com/content/www/us/en/architecture-and-technology/thunderbolt/overview.html' },
+            { title: 'Thunderbolt Wikipedia', url: 'https://en.wikipedia.org/wiki/Thunderbolt_(interface)' },
+        ],
+    },
+    {
+        id: 'ethernet_phy',
+        name: 'Ethernet Physical Layer',
+        abbreviation: 'Ethernet PHY',
+        layer: 1,
+        layerName: 'Physical',
+        description:
+            'Physical layer implementation of Ethernet. Defines electrical specifications, cabling, and signaling for wired networks. Includes standards for twisted pair, fiber optic, and coaxial media.',
+        details: {
+            'Media': 'Twisted pair (UTP, STP), Fiber optic, Coaxial',
+            'Connectors': 'RJ-45, SFP, SFP+, QSFP',
+            'Signal': 'Baseband (digital)',
+            'Encoding': 'Manchester (10Base-T), MLT-3 (100Base-TX), PAM-5 (1000Base-T)',
+        },
+        links: [
+            { title: 'IEEE 802.3 Physical Layer', url: 'https://standards.ieee.org/ieee/802.3/' },
+            { title: 'Ethernet PHY Wikipedia', url: 'https://en.wikipedia.org/wiki/Ethernet_physical_layer' },
         ],
     },
 ];

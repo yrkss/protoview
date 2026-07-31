@@ -7,7 +7,7 @@
 
     // ---- FORCE CACHE CLEAR ----
     (function() {
-        const DATA_VERSION = '6.0.0';
+        const DATA_VERSION = '8.0.0';
         const STORAGE_KEY = 'protocol_viewer_version';
         
         const storedVersion = localStorage.getItem(STORAGE_KEY);
@@ -46,13 +46,15 @@
     // ---- GROUP BY LAYER ----
     function groupProtocolsByLayer(protocols) {
         const groups = {};
-        const layerOrder = [7, 6, 4, 3, 2];
+        const layerOrder = [7, 6, 5, 4, 3, 2, 1];
         const layerNames = {
             7: 'Application',
             6: 'Presentation',
+            5: 'Session',
             4: 'Transport',
             3: 'Network',
             2: 'Data Link',
+            1: 'Physical',
         };
 
         for (const proto of protocols) {
@@ -222,7 +224,7 @@
     // ---- FORCE CACHE CLEAR (Manual) ----
     function forceClearCache() {
         const version = localStorage.getItem('protocol_viewer_version') || '0';
-        const newVersion = '6.0.1';
+        const newVersion = '8.0.1';
         localStorage.setItem('protocol_viewer_version', newVersion);
         console.log(`🔄 Force cache clear: ${version} → ${newVersion}`);
 
@@ -258,7 +260,7 @@
     }
 
     // ---- INIT ----
-    console.log('🌐 ProtoViewer v6.0 — English version');
+    console.log('🌐 ProtoViewer v8.0 — Complete OSI Model (Layers 1-7)');
     console.log(`📦 Loaded protocols: ${PROTOCOLS.length}`);
     renderProtocolList(PROTOCOLS);
     console.log('✅ ProtoViewer ready!');
